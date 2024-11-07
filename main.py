@@ -112,8 +112,8 @@ st.write("Filtros selecionados:", filtros_usuario)
 # Exemplo: filtragem do DataFrame de acordo com os filtros
 
 filtro_df = df[
-   # (df['idade'].isin(idades))
-    (df['porte'] == porte)&
+   (df['idade'].isin(idades)) &
+    (df['porte'] == porte) &
     (df['vacinado'] == vacinado) &
     (df['bem_com_outros'] == bem_com_outros) &
     (df['adocao_especial'] == adocao_especial) &
