@@ -25,5 +25,18 @@ df['Adoção especial?'] = df['Adoção especial?'].apply(lambda x: 1 if x.lower
 
 df['Energia'] = df['Energia'].apply(lambda x: 1 if x.lower() == 'baixa' else 2 if x.lower() == 'média' else 3)
 
+# Trocando nome de colunas
+df.rename(columns={'NOME': 'nome'}, inplace=True)
+df.rename(columns={'Raça': 'raca'}, inplace=True)
+df.rename(columns={'IDADE': 'idade'}, inplace=True)
+df.rename(columns={'PORTE': 'porte'}, inplace=True)
+df.rename(columns={'VACINADO': 'vacinado'}, inplace=True)
+df.rename(columns={'CASTRADO': 'castrado'}, inplace=True)
+df.rename(columns={'Se dá bem com outros animais': 'bem_com_outros'}, inplace=True)
+df.rename(columns={'Adoção especial?': 'adocao_especial'}, inplace=True)
+df.rename(columns={'Energia': 'energia'}, inplace=True)
+df.rename(columns={'Breve descrição': 'descricao'}, inplace=True)
+df.rename(columns={'Fotos': 'tem_fotos'}, inplace=True)
+
 # Salvando o arquivo
 df.to_csv('dataset/dogs_data_tratado.csv', index=False)

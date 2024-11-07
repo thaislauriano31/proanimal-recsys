@@ -1,4 +1,4 @@
-NOME,IDADE,PORTE,VACINADO,CASTRADO,Se dá bem com outros animais,Adoção especial?,Energia,Breve descrição,Raça,Fotos
+nome,idade,porte,vacinado,castrado,bem_com_outros,adocao_especial,energia,descricao,raca,tem_fotos
 Dumbo,2,2,1,0,2,1,2,"Cadeirante, energético e carinhoso",SRD,ok
 Elza,4,2,1,1,3,0,3,"Caramelo linda e super carinhosa, tem muita energia para gastar! Melhor amiga do Max",SRD,ok
 Max,3,2,1,1,2,0,3,"Estopa lindo e super carinhoso, tem muita energia para gastar! Melhor amigo da Elza",SRD,ok
