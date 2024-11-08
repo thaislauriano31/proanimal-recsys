@@ -7,6 +7,10 @@ df = pd.read_csv(path)
 
 # Tratando valores de idade
 df['IDADE'] = df['IDADE'].str.replace(' anos', '')
+df['IDADE'] = df['IDADE'].str.replace(' ano', '')
+
+# TODO: Tratar valores de idade em meses
+df['IDADE'] = df['IDADE'].str.replace(' meses', '')
 df['IDADE'] = df['IDADE'].str.strip()
 
 df['PORTE'] = df['PORTE'].str.strip()
