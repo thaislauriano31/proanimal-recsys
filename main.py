@@ -1,10 +1,7 @@
 import pandas as pd
 import streamlit as st
-
 from recommender import recommender
 
-# Carrega os dados com cache para melhor desempenho
-# @st.cache_data
 def load_data():
     df = pd.read_csv('dataset/dogs_data_tratado.csv')
 
@@ -103,7 +100,7 @@ with st.form("my_form"):
 
     submitted = st.form_submit_button("Encontrar animal ideal para mim")
 
-# Salvar as preferências do usuário para filtragem posterior
+# Salvar as preferências do usuário
 filtros_usuario = {
     "idade": idades,
     "porte": porte,
@@ -113,8 +110,7 @@ filtros_usuario = {
     "energia": energia,
 }
 
-
-# Exibir resultados apenas após submissão do formulário
+# Exibir resultados pós submissão do formulário
 if submitted:
     filtro_df = recommender(df, filtros_usuario)
     st.write("Resultados recomendados:")

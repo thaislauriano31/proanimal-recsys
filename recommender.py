@@ -16,16 +16,10 @@ def calcular_pontuacao(animal, filtros, pesos):
             penalidade = max(0, 1 - min(dist_min, dist_max) / 20)
             pontuacao += pesos["idade"] * penalidade
     
-    # Porte: pontua se for exatamente igual
+    # Pontuam se forem exatamente iguais
     pontuacao += pesos["porte"] if animal['porte'] == filtros['porte'] else 0
-
-    # Vacinado: pontua se corresponder
     pontuacao += pesos["vacinado"] if animal['vacinado'] == filtros['vacinado'] else 0
-
-    # Compatibilidade com outros animais
     pontuacao += pesos["bem_com_outros"] if animal['bem_com_outros'] == filtros['bem_com_outros'] else 0
-
-    # Necessidades especiais
     pontuacao += pesos["adocao_especial"] if animal['adocao_especial'] == filtros['adocao_especial'] else 0
 
     # Energia: pontua mais se estiver próxima
@@ -37,7 +31,7 @@ def calcular_pontuacao(animal, filtros, pesos):
 
 def recommender(df, filtros_usuario):
 
-    # Pesos para cada critério, ajustáveis de acordo com a importância
+    # Pesos ajustáveis para cada critério
     pesos = {
         "idade": 1.0,
         "porte": 1.5,
@@ -47,7 +41,6 @@ def recommender(df, filtros_usuario):
         "energia": 1.5
     }
     
-    # Filtra os dados
     df['pontuacao'] = df.apply(lambda x: calcular_pontuacao(x, filtros_usuario, pesos), axis=1)
     
     df = df.sort_values(by='pontuacao', ascending=False)
