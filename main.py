@@ -1,10 +1,18 @@
 import pandas as pd
 import streamlit as st
 
+from recommender import recommender
+
 # Carrega os dados com cache para melhor desempenho
 # @st.cache_data
 def load_data():
     df = pd.read_csv('dataset/dogs_data_tratado.csv')
+
+    df['idade'] = pd.to_numeric(df['idade'], errors='coerce')
+    
+    # Verifique outras colunas para compatibilidade
+    df['energia'] = pd.to_numeric(df['energia'], errors='coerce')
+    
     return df
 
 df = load_data()
@@ -93,9 +101,9 @@ with st.form("my_form"):
     else:
         energia = 3
 
-    st.form_submit_button("Encontrar animal ideal para mim")
+    submitted = st.form_submit_button("Encontrar animal ideal para mim")
 
-    # Salvar as preferências do usuário para filtragem posterior
+# Salvar as preferências do usuário para filtragem posterior
 filtros_usuario = {
     "idade": idades,
     "porte": porte,
@@ -105,20 +113,9 @@ filtros_usuario = {
     "energia": energia,
 }
 
-# Exibe os filtros selecionados
-st.write("Filtros selecionados:", filtros_usuario)
 
-# Aqui, você pode adicionar a lógica para usar os filtros selecionados no modelo de recomendação
-# Exemplo: filtragem do DataFrame de acordo com os filtros
-
-filtro_df = df[
-   (df['idade'].isin(idades)) &
-    (df['porte'] == porte) &
-    (df['vacinado'] == vacinado) &
-    (df['bem_com_outros'] == bem_com_outros) &
-    (df['adocao_especial'] == adocao_especial) &
-    (df['energia'] == energia)
-]
-
-st.write("Resultados recomendados:")
-st.write(filtro_df)
+# Exibir resultados apenas após submissão do formulário
+if submitted:
+    filtro_df = recommender(df, filtros_usuario)
+    st.write("Resultados recomendados:")
+    st.write(filtro_df)
