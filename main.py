@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from recommender import recommender
+from recommender import recommender, get_nota_maxima
 
 def load_data():
     df = pd.read_csv('dataset/dogs_data_tratado.csv')
@@ -118,6 +118,8 @@ filtros_usuario = {
 if submitted:
     filtro_df = recommender(df, filtros_usuario).reset_index()
 
+    nota_maxima = get_nota_maxima()
+
     st.write("Animal recomendado:")
 
     with st.container(border=True):
@@ -126,6 +128,7 @@ if submitted:
         st.write(filtro_df.loc[0, "descricao"])
         st.write(f"Idade: {int(filtro_df.loc[0, 'idade'])} anos")
         st.write(f"Porte: {filtro_df.loc[0, 'porte']}")
+        st.write(f"Seu fit com o animal: {round((filtro_df.loc[0, 'pontuacao'] / nota_maxima),1)*100}%")
 
 
     #st.write(filtro_df)

@@ -31,9 +31,7 @@ def calcular_pontuacao(animal, filtros, pesos):
     
     return pontuacao
 
-def recommender(df, filtros_usuario):
-
-    # Pesos ajustáveis para cada critério
+def define_pesos():
     pesos = {
         "idade": 1.0,
         "porte": 1.5,
@@ -42,6 +40,17 @@ def recommender(df, filtros_usuario):
         "adocao_especial": 1.0,
         "energia": 1.5
     }
+    return pesos
+
+def get_nota_maxima():
+    pesos = define_pesos()
+    return sum(pesos.values())
+
+def recommender(df, filtros_usuario):
+
+    # Pesos ajustáveis para cada critério
+    pesos = define_pesos()
+
     
     df['pontuacao'] = df.apply(lambda x: calcular_pontuacao(x, filtros_usuario, pesos), axis=1)
     
