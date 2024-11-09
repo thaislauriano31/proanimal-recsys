@@ -17,9 +17,9 @@ df = load_data()
 # Cabeçalho da página
 col1, col2 = st.columns([1, 3])
 with col1:
-    st.image(".\\images\\logo.jpg", width=180)
+    st.image(".\\images\\logo.jpg", width=175)
 with col2:
-    st.title("Sistema de Recomendação de Adoção")
+    st.title("Sistema de Recomendação de Adoção da ProAnimal")
     st.subheader("Encontre o animal ideal para você!")
 
 # Formulário para filtrar animais
@@ -56,14 +56,22 @@ with st.form("my_form"):
 
     # Status de vacinação
     vacinado = st.checkbox("Precisa estar vacinado",
-                           help="Indica se o animal já recebeu vacinas essenciais")
+                           help="Indica se o animal já recebeu as vacinas essenciais")
     if vacinado:
         vacinado = 1
     else:
         vacinado = 0
 
+    # Status de castração
+    castrado = st.checkbox("Precisa estar castrado",
+                           help="Indica se o animal já foi castrado")
+    if castrado:
+        castrado = 1
+    else:
+        castrado = 0
+
     # Compatibilidade com outros animais
-    bem_com_outros = st.selectbox("Se dá bem com outros animais",
+    bem_com_outros = st.selectbox("Se dá bem com outros animais?",
                                   ['Com cães e gatos', 'Só cães', 'Só gatos', 'Não precisa se dar bem com cães e/ou gatos'],
                                  help="O animal convive bem com outros cães ou gatos")
     
@@ -76,7 +84,7 @@ with st.form("my_form"):
     
 
     # Necessidades especiais
-    adocao_especial = st.checkbox("Necessidades de adoção especial",
+    adocao_especial = st.checkbox("Adoção especial",
                                   help="Adoção especial inclui animais com condições de saúde específicas ou necessidades únicas")
     
     if adocao_especial:
@@ -105,6 +113,7 @@ filtros_usuario = {
     "idade": idades,
     "porte": porte,
     "vacinado": vacinado,
+    "castrado": castrado,
     "bem_com_outros": bem_com_outros,
     "adocao_especial": adocao_especial,
     "energia": energia,
@@ -112,6 +121,16 @@ filtros_usuario = {
 
 # Exibir resultados pós submissão do formulário
 if submitted:
-    filtro_df = recommender(df, filtros_usuario)
-    st.write("Resultados recomendados:")
+    filtro_df = recommender(df, filtros_usuario).reset_index()
+
+    st.write("Animais recomendados:")
+
+    with st.container(border=True):
+        st.image(".\\images\\logo.jpg", width=175)
+        st.header(filtro_df.loc[0, "nome"])
+        st.write(filtro_df.loc[0, "descricao"])
+        st.write(f"Idade: {filtro_df.loc[0, "idade"]} anos")
+        st.write(f"Porte: {filtro_df.loc[0, "porte"]}")
+
+
     st.write(filtro_df)
