@@ -4,15 +4,53 @@ from recommender import recommender, get_nota_maxima
 
 def load_data():
     df = pd.read_csv('dataset/dogs_data_tratado.csv')
-
     df['idade'] = pd.to_numeric(df['idade'], errors='coerce')
     df['energia'] = pd.to_numeric(df['energia'], errors='coerce')
-    
     return df
+
+def next_animal():
+    st.session_state.current_index = (st.session_state.current_index + 1) % len(st.session_state.filtered_df)
+
+def prev_animal():
+    st.session_state.current_index = (st.session_state.current_index - 1) % len(st.session_state.filtered_df)
+
+def display_animal():
+    if 'filtered_df' in st.session_state:
+        filtro_df = st.session_state.filtered_df
+        nota_maxima = get_nota_maxima()
+        current_animal = filtro_df.iloc[st.session_state.current_index]
+        
+        with st.container():
+            st.header("Animal recomendado")
+            
+            st.image(f".\\images\\{current_animal['nome']}.jpg", width=175)
+            st.header(current_animal["nome"])
+            st.write(current_animal["descricao"])
+            
+            info_col1, info_col2 = st.columns(2)
+            with info_col1:
+                st.write(f"Idade: {int(current_animal['idade'])} anos")
+                porte = {1: "Pequeno", 2: "Médio", 3: "Grande"}.get(current_animal['porte'], "Não especificado")
+                st.write(f"Porte: {porte}")
+            
+            with info_col2:
+                fit_score = round((current_animal['pontuacao'] / nota_maxima) * 100, 1)
+                st.write(f"Seu fit com o animal: {fit_score}%")
+                st.write(f"Animal {st.session_state.current_index + 1} de {len(filtro_df)}")
+            
+            st.markdown("---")
+            button_col1, button_col2, button_col3 = st.columns([1, 2, 1])
+            
+            with button_col2:
+                col_prev, col_next = st.columns(2)
+                with col_prev:
+                    st.button("⬅️ Anterior", on_click=prev_animal, key='prev_button', use_container_width=True)
+                with col_next:
+                    st.button("Próximo ➡️", on_click=next_animal, key='next_button', use_container_width=True)
 
 df = load_data()
 
-# Cabeçalho da página
+# Page header
 col1, col2 = st.columns([1, 3])
 with col1:
     st.image(".\\images\\logo.jpg", width=175)
@@ -20,126 +58,66 @@ with col2:
     st.title("Sistema de Recomendação de Adoção da ProAnimal")
     st.subheader("Encontre o animal ideal para você!")
 
-# Formulário para filtrar animais
+# Form for filtering animals
 with st.form("my_form"):
     st.header("Filtrar animal para adoção")
 
-    # # Idade do animal
     idades = st.selectbox("Idade do animal", 
                          ['0 a 3', '4 a 6', '7 ou mais'],
                          help="Nota: As vezes não temos uma certeza da idade verdadeira, que é baseada em estimativas médicas"
     )
-    if idades == '0 a 3':
-        idades = [0,1,2,3]
-    elif idades == '4 a 6':
-        idades = [4,5,6]
-    else:
-        idades = [7, 8, 9, 10, 11, 12]
-    
+    idades = [0,1,2,3] if idades == '0 a 3' else [4,5,6] if idades == '4 a 6' else [7,8,9,10,11,12]
 
-    # Porte do animal
+    porte_options = {"Pequeno": 1, "Médio": 2, "Grande": 3}
     porte = st.selectbox(
         "Porte do animal",
-        ["Pequeno", "Médio", "Grande"],
+        list(porte_options.keys()),
         help="Tamanho geral do animal, que influencia nas necessidades de espaço e cuidados"
     )
-    if porte == "Pequeno":
-        porte = 1
-    elif porte == "Médio":
-        porte = 2
-    else:
-        porte = 3
+    porte = porte_options[porte]
 
-    # Status de vacinação
     vacinado = st.checkbox("Precisa estar vacinado",
                            help="Indica se o animal já recebeu as vacinas essenciais")
-    if vacinado:
-        vacinado = 1
-    else:
-        vacinado = 0
+    vacinado = 1 if vacinado else 0
 
-    # Status de castração
     castrado = st.checkbox("Precisa estar castrado",
                            help="Indica se o animal já foi castrado")
-    if castrado:
-        castrado = 1
-    else:
-        castrado = 0
+    castrado = 1 if castrado else 0
 
-    # Compatibilidade com outros animais
     bem_com_outros = st.selectbox("Se dá bem com outros animais?",
                                   ['Com cães e gatos', 'Só cães', 'Só gatos', 'Não precisa se dar bem com cães e/ou gatos'],
                                  help="O animal convive bem com outros cães ou gatos")
-    if bem_com_outros == 'Com cães e gatos' or bem_com_outros == 'Só gatos':
-        bem_com_outros = 3
-    elif bem_com_outros == 'Só cães':
-        bem_com_outros = 2
-    elif bem_com_outros == 'Não precisa se dar bem com cães e/ou gatos':
-        bem_com_outros = 1
-    
+    bem_com_outros = 3 if bem_com_outros in ['Com cães e gatos', 'Só gatos'] else 2 if bem_com_outros == 'Só cães' else 1
 
-    # Necessidades especiais
     adocao_especial = st.checkbox("Adoção especial",
                                   help="Adoção especial inclui animais com condições de saúde específicas ou necessidades únicas")
-    if adocao_especial:
-        adocao_especial = 1
-    else:
-        adocao_especial = 0
+    adocao_especial = 1 if adocao_especial else 0
 
-    # Nível de energia
+    energia_options = {"Baixa": 1, "Média": 2, "Alta": 3}
     energia = st.selectbox(
         "Nível de energia",
-        ["Baixa", "Média", "Alta"],
+        list(energia_options.keys()),
         help="Indica o nível de atividade física e mental do animal"
     )
-    if energia == "Baixa":
-        energia = 1
-    elif energia == "Média":
-        energia = 2
-    else:
-        energia = 3
+    energia = energia_options[energia]
 
     submitted = st.form_submit_button("Encontrar animal ideal para mim")
 
-# Salvar as preferências do usuário
-filtros_usuario = {
-    "idade": idades,
-    "porte": porte,
-    "vacinado": vacinado,
-    "castrado": castrado,
-    "bem_com_outros": bem_com_outros,
-    "adocao_especial": adocao_especial,
-    "energia": energia,
-}
-
-# Exibir resultados pós submissão do formulário
 if submitted:
-    filtro_df = recommender(df, filtros_usuario).reset_index()
+    # Save user preferences
+    filtros_usuario = {
+        "idade": idades,
+        "porte": porte,
+        "vacinado": vacinado,
+        "castrado": castrado,
+        "bem_com_outros": bem_com_outros,
+        "adocao_especial": adocao_especial,
+        "energia": energia,
+    }
+    
+    # Initialize the filtered DataFrame
+    st.session_state.filtered_df = recommender(df, filtros_usuario).reset_index()
+    st.session_state.current_index = 0
 
-    nota_maxima = get_nota_maxima()
-
-    st.write("Animal recomendado:")
-
-    with st.container(border=True):
-        col1, col2, col3 = st.columns([1, 2, 1]) 
-        with col2:  # Coluna do meio
-            st.image(f".\\images\\{filtro_df.loc[0, 'nome']}.jpg", width=175)
-
-        st.header(filtro_df.loc[0, "nome"])
-        st.write(filtro_df.loc[0, "descricao"])
-        #TODO lidar com 1 ano e com meses
-        st.write(f"Idade: {int(filtro_df.loc[0, 'idade'])} anos") 
-        porte = 0
-
-        if filtro_df.loc[0, 'porte'] == 1:
-            porte = "Pequeno"
-        elif filtro_df.loc[0, 'porte'] == 2:
-            porte = "Médio"
-        else:
-            porte = "Grande"
-
-        st.write(f"Porte: {porte}")
-        st.write(f"Seu fit com o animal: {round((filtro_df.loc[0, 'pontuacao'] / nota_maxima),1)*100}%")
-
-
-    st.write(filtro_df)
+# Display animal information (outside the submitted condition)
+display_animal()
