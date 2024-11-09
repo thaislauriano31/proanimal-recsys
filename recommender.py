@@ -25,7 +25,7 @@ def calcular_pontuacao(animal, filtros, pesos):
     # Energia: pontua mais se estiver próxima
     if pd.notna(animal['energia']):
         energia_diff = abs(animal['energia'] - filtros['energia'])
-        pontuacao += pesos["energia"] * max(0, 1 - energia_diff / 2.0)
+        pontuacao += pesos["energia"] * max(0, 1 - energia_diff)
     
     return pontuacao
 
