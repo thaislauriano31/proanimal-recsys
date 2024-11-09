@@ -31,13 +31,12 @@ with st.form("my_form"):
                          ['0 a 3', '4 a 6', '7 ou mais'],
                          help="Nota: As vezes não temos uma certeza da idade verdadeira, que é baseada em estimativas médicas"
     )
-
     if idades == '0 a 3':
         idades = [0,1,2,3]
     elif idades == '4 a 6':
         idades = [4,5,6]
     else:
-        idade = [7, 8, 9, 10, 11, 12]
+        idades = [7, 8, 9, 10, 11, 12]
     
 
     # Porte do animal
@@ -46,7 +45,6 @@ with st.form("my_form"):
         ["Pequeno", "Médio", "Grande"],
         help="Tamanho geral do animal, que influencia nas necessidades de espaço e cuidados"
     )
-
     if porte == "Pequeno":
         porte = 1
     elif porte == "Médio":
@@ -74,7 +72,6 @@ with st.form("my_form"):
     bem_com_outros = st.selectbox("Se dá bem com outros animais?",
                                   ['Com cães e gatos', 'Só cães', 'Só gatos', 'Não precisa se dar bem com cães e/ou gatos'],
                                  help="O animal convive bem com outros cães ou gatos")
-    
     if bem_com_outros == 'Com cães e gatos' or bem_com_outros == 'Só gatos':
         bem_com_outros = 3
     elif bem_com_outros == 'Só cães':
@@ -86,7 +83,6 @@ with st.form("my_form"):
     # Necessidades especiais
     adocao_especial = st.checkbox("Adoção especial",
                                   help="Adoção especial inclui animais com condições de saúde específicas ou necessidades únicas")
-    
     if adocao_especial:
         adocao_especial = 1
     else:
@@ -98,7 +94,6 @@ with st.form("my_form"):
         ["Baixa", "Média", "Alta"],
         help="Indica o nível de atividade física e mental do animal"
     )
-
     if energia == "Baixa":
         energia = 1
     elif energia == "Média":
@@ -123,14 +118,14 @@ filtros_usuario = {
 if submitted:
     filtro_df = recommender(df, filtros_usuario).reset_index()
 
-    st.write("Animais recomendados:")
+    st.write("Animal recomendado:")
 
     with st.container(border=True):
         st.image(".\\images\\logo.jpg", width=175)
         st.header(filtro_df.loc[0, "nome"])
         st.write(filtro_df.loc[0, "descricao"])
-        st.write(f"Idade: {filtro_df.loc[0, "idade"]} anos")
-        st.write(f"Porte: {filtro_df.loc[0, "porte"]}")
+        st.write(f"Idade: {int(filtro_df.loc[0, 'idade'])} anos")
+        st.write(f"Porte: {filtro_df.loc[0, 'porte']}")
 
 
-    st.write(filtro_df)
+    #st.write(filtro_df)
