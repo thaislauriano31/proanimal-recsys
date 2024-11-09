@@ -123,7 +123,10 @@ if submitted:
     st.write("Animal recomendado:")
 
     with st.container(border=True):
-        st.image(f".\\images\\{filtro_df.loc[0, "nome"]}.jpg", width=175)
+        col1, col2, col3 = st.columns([1, 2, 1]) 
+        with col2:  # Coluna do meio
+            st.image(f".\\images\\{filtro_df.loc[0, 'nome']}.jpg", width=175)
+
         st.header(filtro_df.loc[0, "nome"])
         st.write(filtro_df.loc[0, "descricao"])
         #TODO lidar com 1 ano e com meses
@@ -132,4 +135,4 @@ if submitted:
         st.write(f"Seu fit com o animal: {round((filtro_df.loc[0, 'pontuacao'] / nota_maxima),1)*100}%")
 
 
-    #st.write(filtro_df)
+    st.write(filtro_df)

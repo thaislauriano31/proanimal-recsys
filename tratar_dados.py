@@ -5,6 +5,9 @@ path = 'dataset/dogs_data.csv'
 # Lendo o arquivo
 df = pd.read_csv(path)
 
+#TODO: Tratar espaco apos nome composto
+df['NOME'] = df['NOME'].str.strip()
+
 # Tratando valores de idade
 df['IDADE'] = df['IDADE'].str.replace(' anos', '')
 df['IDADE'] = df['IDADE'].str.replace(' ano', '')

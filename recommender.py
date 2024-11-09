@@ -33,12 +33,12 @@ def calcular_pontuacao(animal, filtros, pesos):
 
 def define_pesos():
     pesos = {
-        "idade": 1.0,
-        "porte": 1.5,
-        "vacinado": 0.5,
-        "bem_com_outros": 1.0,
-        "adocao_especial": 1.0,
-        "energia": 1.5
+        "idade": 1.2,
+        "porte": 1.8,
+        "vacinado": 0.7,
+        "bem_com_outros": 1.5,
+        "adocao_especial": 1.2,
+        "energia": 2.0
     }
     return pesos
 
