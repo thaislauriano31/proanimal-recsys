@@ -6,8 +6,6 @@ def load_data():
     df = pd.read_csv('dataset/dogs_data_tratado.csv')
 
     df['idade'] = pd.to_numeric(df['idade'], errors='coerce')
-    
-    # Verifique outras colunas para compatibilidade
     df['energia'] = pd.to_numeric(df['energia'], errors='coerce')
     
     return df
@@ -131,7 +129,16 @@ if submitted:
         st.write(filtro_df.loc[0, "descricao"])
         #TODO lidar com 1 ano e com meses
         st.write(f"Idade: {int(filtro_df.loc[0, 'idade'])} anos") 
-        st.write(f"Porte: {filtro_df.loc[0, 'porte']}")
+        porte = 0
+
+        if filtro_df.loc[0, 'porte'] == 1:
+            porte = "Pequeno"
+        elif filtro_df.loc[0, 'porte'] == 2:
+            porte = "Médio"
+        else:
+            porte = "Grande"
+
+        st.write(f"Porte: {porte}")
         st.write(f"Seu fit com o animal: {round((filtro_df.loc[0, 'pontuacao'] / nota_maxima),1)*100}%")
 
 

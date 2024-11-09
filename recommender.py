@@ -37,8 +37,8 @@ def define_pesos():
         "porte": 1.8,
         "vacinado": 0.7,
         "bem_com_outros": 1.5,
-        "adocao_especial": 1.2,
-        "energia": 2.0
+        "adocao_especial": 2.0,
+        "energia": 1.6
     }
     return pesos
 
