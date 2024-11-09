@@ -124,7 +124,8 @@ if submitted:
         st.image(f".\\images\\{filtro_df.loc[0, "nome"]}.jpg", width=175)
         st.header(filtro_df.loc[0, "nome"])
         st.write(filtro_df.loc[0, "descricao"])
-        st.write(f"Idade: {int(filtro_df.loc[0, 'idade'])} anos")
+        #TODO lidar com 1 ano e com meses
+        st.write(f"Idade: {int(filtro_df.loc[0, 'idade'])} anos") 
         st.write(f"Porte: {filtro_df.loc[0, 'porte']}")
 
 
