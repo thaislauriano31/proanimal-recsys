@@ -6,14 +6,16 @@ def calcular_pontuacao(animal, filtros, pesos):
     # Idade: pontua totalmente se estiver dentro do intervalo, caso contrário reduz pela diferença
     idade_animal = float(animal['idade']) if pd.notna(animal['idade']) else None
     if idade_animal is not None:
-        if filtros['idade'][0] <= idade_animal <= filtros['idade'][1]:  # Dentro do intervalo
+        max_idade = len(filtros['idade']) - 1
+        
+        if filtros['idade'][0] <= idade_animal <= filtros['idade'][max_idade]:  # Dentro do intervalo
             pontuacao += pesos["idade"]
+        
         else:
             # Penalidade: quanto mais longe do intervalo, menor a pontuação
-            max_idade = len(filtros['idade']) - 1
             dist_min = abs(idade_animal - filtros['idade'][0])
             dist_max = abs(idade_animal - filtros['idade'][max_idade])
-            penalidade = max(0, 1 - min(dist_min, dist_max) / 20)
+            penalidade = min(dist_min, dist_max) / 12
             pontuacao += pesos["idade"] * penalidade
     
     # Pontuam se forem exatamente iguais
