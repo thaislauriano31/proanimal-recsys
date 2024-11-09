@@ -51,7 +51,6 @@ def recommender(df, filtros_usuario):
     # Pesos ajustáveis para cada critério
     pesos = define_pesos()
 
-    
     df['pontuacao'] = df.apply(lambda x: calcular_pontuacao(x, filtros_usuario, pesos), axis=1)
     
     df = df.sort_values(by='pontuacao', ascending=False)
