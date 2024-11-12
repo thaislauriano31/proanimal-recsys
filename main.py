@@ -29,15 +29,19 @@ def display_animal():
             
             info_col1, info_col2 = st.columns(2)
             with info_col1:
-                st.write(f"Idade: {int(current_animal['idade'])} anos")
+                if current_animal['idade'] >= 1:
+                    st.write(f"Idade: {int(current_animal['idade'])}" + (" anos" if current_animal['idade'] > 1 else " ano"))
+                else:
+                    st.write(f"Idade: {int(12*current_animal['idade'])}" + " meses")
                 porte = {1: "Pequeno", 2: "Médio", 3: "Grande"}.get(current_animal['porte'], "Não especificado")
                 st.write(f"Porte: {porte}")
             
             with info_col2:
                 fit_score = round((current_animal['pontuacao'] / nota_maxima) * 100, 1)
-                st.write(f"Seu fit com o animal: {fit_score}%")
+                st.write(f"Seu fit com o animal: {fit_score}%", 
+                         help="O fit indica o quão bem o animal se encaixa nos critérios que você escolheu. Pode não existir um animal com 100% de fit, então recomendamos o animal com maior fit.")
                 st.write(f"Animal {st.session_state.current_index + 1} de {len(filtro_df)}")
-            
+        
             st.markdown("---")
             button_col1, button_col2, button_col3 = st.columns([1, 2, 1])
             
@@ -64,7 +68,7 @@ with st.form("my_form"):
 
     idades = st.selectbox("Idade do animal", 
                          ['0 a 3', '4 a 6', '7 ou mais'],
-                         help="Nota: As vezes não temos uma certeza da idade verdadeira, que é baseada em estimativas médicas"
+                         help="Nota: As vezes não temos certeza da idade verdadeira, então nos baseamos em estimativas feitas por veterinários"
     )
     idades = [0,1,2,3] if idades == '0 a 3' else [4,5,6] if idades == '4 a 6' else [7,8,9,10,11,12]
 
