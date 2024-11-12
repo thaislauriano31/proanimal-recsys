@@ -60,7 +60,7 @@ with col1:
     st.image(".\\images\\logo.jpg", width=175)
 with col2:
     st.title("Sistema de Recomendação de Adoção da ProAnimal")
-    st.subheader("Encontre o animal ideal para você!")
+    st.subheader("Encontre o animal que mais combina com você!")
 
 # Form for filtering animals
 with st.form("my_form"):
