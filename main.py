@@ -55,7 +55,7 @@ def display_animal():
             st.markdown("---")
             st.header("O que é o fit?")
             st.write("O fit é uma medida que indica o quanto o animal recomendado se encaixa com suas preferências. "
-                     "Quanto maior o fit, mais compatível é o animal com o que você escolheu.")
+                     "Quanto maior o fit, mais compatível é o animal com os filtros que você escolheu.")
 
 df = load_data()
 
