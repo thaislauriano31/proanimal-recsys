@@ -52,6 +52,11 @@ def display_animal():
                 with col_next:
                     st.button("Próximo ➡️", on_click=next_animal, key='next_button', use_container_width=True)
 
+            st.markdown("---")
+            st.header("O que é o fit?")
+            st.write("O fit é uma medida que indica o quanto o animal recomendado se encaixa com suas preferências. "
+                     "Quanto maior o fit, mais compatível é o animal com o que você escolheu.")
+
 df = load_data()
 
 # Page header
