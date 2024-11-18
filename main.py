@@ -23,7 +23,7 @@ def display_animal():
         with st.container():
             st.header("Animal recomendado")
             
-            st.image(f".\\images\\{current_animal['nome']}.jpg", width=175)
+            st.image(f"./images/{current_animal['nome']}.jpg", width=175)
             st.header(current_animal["nome"])
             st.write(current_animal["descricao"])
             
@@ -57,7 +57,7 @@ df = load_data()
 # Page header
 col1, col2 = st.columns([1, 3])
 with col1:
-    st.image(".\\images\\logo.jpg", width=175)
+    st.image("./images/logo.jpg", width=175)
 with col2:
     st.title("Sistema de Recomendação de Adoção da ProAnimal")
     st.subheader("Encontre o animal que mais combina com você!")
@@ -80,22 +80,10 @@ with st.form("my_form"):
     )
     porte = porte_options[porte]
 
-    vacinado = st.checkbox("Precisa estar vacinado",
-                           help="Indica se o animal já recebeu as vacinas essenciais")
-    vacinado = 1 if vacinado else 0
-
-    castrado = st.checkbox("Precisa estar castrado",
-                           help="Indica se o animal já foi castrado")
-    castrado = 1 if castrado else 0
-
     bem_com_outros = st.selectbox("Se dá bem com outros animais?",
                                   ['Com cães e gatos', 'Só cães', 'Só gatos', 'Não precisa se dar bem com cães e/ou gatos'],
                                  help="O animal convive bem com outros cães ou gatos")
     bem_com_outros = 3 if bem_com_outros in ['Com cães e gatos', 'Só gatos'] else 2 if bem_com_outros == 'Só cães' else 1
-
-    adocao_especial = st.checkbox("Adoção especial",
-                                  help="Adoção especial inclui animais com condições de saúde específicas ou necessidades únicas")
-    adocao_especial = 1 if adocao_especial else 0
 
     energia_options = {"Baixa": 1, "Média": 2, "Alta": 3}
     energia = st.selectbox(
@@ -104,6 +92,18 @@ with st.form("my_form"):
         help="Indica o nível de atividade física e mental do animal"
     )
     energia = energia_options[energia]
+
+    vacinado = st.checkbox("Precisa estar vacinado",
+                           help="Indica se o animal já recebeu as vacinas essenciais")
+    vacinado = 1 if vacinado else 0
+
+    castrado = st.checkbox("Precisa estar castrado",
+                           help="Indica se o animal já foi castrado")
+    castrado = 1 if castrado else 0
+
+    adocao_especial = st.checkbox("Adoção especial",
+                                  help="Adoção especial inclui animais com condições de saúde específicas ou necessidades únicas")
+    adocao_especial = 1 if adocao_especial else 0
 
     submitted = st.form_submit_button("Encontrar animal ideal para mim")
 
