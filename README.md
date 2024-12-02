@@ -2,6 +2,7 @@
 
 ## Objetivo
 O Sistema de Recomendação de Adoção ProAnimal é uma ferramenta desenvolvida para facilitar e otimizar o processo de adoção de animais. Seu principal objetivo é criar uma ponte eficiente entre potenciais adotantes e animais disponíveis para adoção, utilizando um sistema inteligente de recomendação baseado em compatibilidade.
+**Link da aplicação:** https://recomendacao-proanimal.streamlit.app
 
 ## Funcionalidades Principais
 - **Filtragem Personalizada**: Permite aos usuários especificarem suas preferências e limitações, incluindo:
